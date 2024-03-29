@@ -1,85 +1,163 @@
-import { Menu } from "lucide-react";
-import { Button } from "./ui/button";
+"use client";
+import React, { useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { cn } from "~/lib/utils";
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Book, Menu } from "lucide-react";
 import Image from "next/image";
+import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
+import { Button } from "./ui/button";
+import { ScrollToTop } from "./scroll-to-top";
 
-export const navItems = [
-  {
-    name: "Home",
-    href: "/",
-  },
-  {
-    name: "About",
-    href: "/about-us",
-  },
-  {
-    name: "Islam-Guide",
-    href: "/islam-guide",
-  },
-  {
-    name: "Videos",
-    href: "/videos",
-  },
-  {
-    name: "Contact",
-    href: "/contact-us",
-  },
-  {
-    name: "Donate",
-    href: "/donate",
-  },
-];
+export const NavBar = ({
+  navItems = [
+    {
+      name: "Home",
+      link: "/",
+    },
+    {
+      name: "About",
+      link: "/about-us",
+    },
+    {
+      name: "Islam-Guide",
+      link: "/islam-guide",
+    },
+    {
+      name: "Videos",
+      link: "/videos",
+    },
+    {
+      name: "Contact",
+      link: "/contact-us",
+    },
+    {
+      name: "Donate",
+      link: "/donate",
+    },
+  ],
+  className,
+}: {
+  navItems?: {
+    name: string;
+    link: string;
+    icon?: JSX.Element;
+  }[];
+  className?: string;
+}) => {
+  const { scrollYProgress, scrollY } = useScroll();
 
-export function NavBar() {
-  const logo = <Image src="/omf.png" alt="omf" width={50} height={40} />;
+  const [watch, setWatch] = useState(false);
+  const [visible, setVisible] = useState(true);
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const value = Number(current.toFixed()) ?? 0;
+    if (value < 200) {
+      setWatch(false);
+      setVisible(true);
+    } else {
+      setWatch(true);
+    }
+  });
+
+  // useMotionValueEvent(scrollYProgress, "change", (current) => {
+  //   if (watch && typeof current === "number") {
+  //     let direction = current! - scrollYProgress.getPrevious()!;
+
+  //     if (direction < 0) {
+  //       setVisible(true);
+  //     } else {
+  //       setVisible(false);
+  //     }
+  //   }
+  // });
+
+  const logo = (
+    <Link href="/">
+      <Image src="/omf.png" alt="omf" width={80} height={80} />
+    </Link>
+  );
+
   return (
-    <header className="sticky top-0 flex justify-between h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-      <div className="flex md:hidden">
-        <Link href="/">{logo}</Link>
-      </div>
-      <nav className="justify-between flex-1 hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <Link href="/">{logo}</Link>
-        <div className="flex gap-6 items-center">
-          {navItems.map((navItem, i) => (
-            <Link
-              key={i}
-              href={navItem.href}
-              className="text-foreground transition-colors hover:text-foreground"
-            >
-              {navItem.name}
-            </Link>
-          ))}
-          <Link href="/get-free-quran">
-            <Button>Get Free Quran</Button>
-          </Link>
-        </div>
-      </nav>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <nav className="grid gap-6 text-lg font-medium">
-            <Link href="/">{logo}</Link>
-            {navItems.map((navItem, i) => (
+    <>
+      <AnimatePresence mode="wait">
+        <motion.div
+          initial={{
+            opacity: 1,
+            y: -100,
+          }}
+          animate={{
+            y: visible ? 0 : -100,
+            opacity: visible ? 1 : 0,
+          }}
+          transition={{
+            duration: 0.2,
+          }}
+          className={cn(
+            "flex justify-between h-24 fixed top-0 inset-x-0 mx-auto border border-transparent z-[50] pr-8 pl-8 items-center",
+            className
+          )}
+        >
+          {logo}
+          <div className="hidden md:flex max-w-fit h-16 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] pr-8 pl-8 items-center justify-center space-x-4">
+            {navItems.map((navItem: any, idx: number) => (
               <Link
-                key={i}
-                href={navItem.href}
-                className="text-foreground transition-colors hover:text-foreground"
+                key={`link=${idx}`}
+                href={navItem.link}
+                className={cn(
+                  "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
+                )}
               >
-                {navItem.name}
+                <span className="text-sm">{navItem.name}</span>
               </Link>
             ))}
+          </div>
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <Link href="/get-free-quran">
-              <Button>Get Free Quran</Button>
+              <Button className="rounded-full">
+                <Book className="w-4 h-4 mr-2" />
+                Get Free Quran
+              </Button>
             </Link>
-          </nav>
-        </SheetContent>
-      </Sheet>
-    </header>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="shrink-0 md:hidden rounded-full"
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle navigation menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <nav className="grid gap-6 text-lg font-medium">
+                  {logo}
+                  {navItems.map((navItem, i) => (
+                    <Link
+                      key={i}
+                      href={navItem.link}
+                      className="text-foreground transition-colors hover:text-foreground"
+                    >
+                      {navItem.name}
+                    </Link>
+                  ))}
+                  <Link href="/get-free-quran">
+                    <Button>Get Free Quran</Button>
+                  </Link>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </motion.div>
+        <ScrollToTop visible={watch} />
+      </AnimatePresence>
+    </>
   );
-}
+};
