@@ -1,9 +1,10 @@
+import { EventsView } from "~/components/events-view";
 import { AuroraBackground } from "~/components/ui/aurora-background";
 
 export default function Home() {
   return (
     <main>
-      <div className="h-40">
+      <div>
         <AuroraBackground>
           <div className="container">
             <p className="text-4xl h-14 font-bold">
@@ -13,7 +14,10 @@ export default function Home() {
           </div>
         </AuroraBackground>
       </div>
-      <div className="h-[200vh]" />
+      <div className="container">
+        <p className="text-3xl mb-4">Latest Events</p>
+        <EventsView />
+      </div>
     </main>
   );
 }

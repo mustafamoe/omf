@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { cn } from "~/lib/utils";
 import { siteConfig } from "~/lib/constants";
 import { NavBar } from "~/components/nav-bar";
+import { SocialMedia } from "~/components/social-media";
+import { Footer } from "~/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +32,8 @@ export default function RootLayout({
       >
         <NavBar />
         {children}
+        <Footer />
+        <SocialMedia />
       </body>
     </html>
   );

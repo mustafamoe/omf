@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import { useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -22,19 +23,23 @@ export const NavBar = ({
     },
     {
       name: "About",
-      link: "/about-us",
+      link: "/about",
     },
     {
       name: "Islam-Guide",
       link: "/islam-guide",
     },
     {
-      name: "Videos",
-      link: "/videos",
+      name: "News",
+      link: "/news",
+    },
+    {
+      name: "Events",
+      link: "/events",
     },
     {
       name: "Contact",
-      link: "/contact-us",
+      link: "/contact",
     },
     {
       name: "Donate",
@@ -65,21 +70,17 @@ export const NavBar = ({
     }
   });
 
-  // useMotionValueEvent(scrollYProgress, "change", (current) => {
-  //   if (watch && typeof current === "number") {
-  //     let direction = current! - scrollYProgress.getPrevious()!;
-
-  //     if (direction < 0) {
-  //       setVisible(true);
-  //     } else {
-  //       setVisible(false);
-  //     }
-  //   }
-  // });
-
   const logo = (
     <Link href="/">
-      <Image src="/omf.png" alt="omf" width={80} height={80} />
+      <Image
+        src="/omf.png"
+        alt="omf"
+        width={80}
+        height={80}
+        style={{
+          filter: "drop-shadow(0px 0px 5px white)",
+        }}
+      />
     </Link>
   );
 
@@ -99,12 +100,12 @@ export const NavBar = ({
             duration: 0.2,
           }}
           className={cn(
-            "flex justify-between h-24 fixed top-0 inset-x-0 mx-auto border border-transparent z-[50] pr-8 pl-8 items-center",
+            "flex justify-between container h-24 fixed top-0 inset-x-0 mx-auto border border-transparent z-[50] pr-8 pl-8 items-center",
             className
           )}
         >
           {logo}
-          <div className="hidden md:flex max-w-fit h-16 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] pr-8 pl-8 items-center justify-center space-x-4">
+          <div className="hidden md:flex max-w-fit h-14 inset-x-0 mx-auto border border-transparent dark:border-white/[0.2] rounded-full dark:bg-black bg-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] px-6 items-center justify-center space-x-4">
             {navItems.map((navItem: any, idx: number) => (
               <Link
                 key={`link=${idx}`}

@@ -14,5 +14,4 @@ export const mediaLinks = {
   goodBricks: "https://goodbricksapp.com/onemessagefoundation.com/donate",
   paypal:
     "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=S3ER2RQ4XYK58",
-  //   googleMaps: "<iframe src="" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>"
 };
