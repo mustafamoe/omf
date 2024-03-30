@@ -1,40 +1,9 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { cn } from "~/lib/utils";
-import { siteConfig } from "~/lib/constants";
-import { NavBar } from "~/components/nav-bar";
-import { SocialMedia } from "~/components/social-media";
-import { Footer } from "~/components/footer";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: {
-    template: `%s | ${siteConfig.name}`,
-    default: siteConfig.name,
-  },
-  description: siteConfig.description,
-};
+import "~/styles/globals.css";
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          inter.className
-        )}
-      >
-        <NavBar />
-        {children}
-        <Footer />
-        <SocialMedia />
-      </body>
-    </html>
-  );
+}) {
+  return children;
 }
