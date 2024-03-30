@@ -1,8 +1,10 @@
 import Image from "next/image";
+import { quranTranslations } from "~/data/quran-translations";
+import { Link } from "~/navigation";
 
 export default function Page() {
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen pt-28">
       <div className="container m-auto">
         <div className="max-w-3xl mx-auto mb-6">
           <p className="text-center text-4xl mb-4">
@@ -18,34 +20,23 @@ export default function Page() {
         </div>
         <div className="grid grid-cols-2 gap-14">
           {quranTranslations.map((quranTranslation, i) => (
-            <div key={i}>
-              <div className="w-full shadow-md rounded-md overflow-hidden mb-2">
-                <Image
-                  src={quranTranslation.image}
-                  alt={quranTranslation.alt}
-                  height={500}
-                  width={500}
-                  className="w-full"
-                />
+            <Link href={`/free-quran/${quranTranslation.slug}`} key={i}>
+              <div>
+                <div className="w-full shadow-md rounded-md overflow-hidden mb-2">
+                  <Image
+                    src={quranTranslation.image}
+                    alt={quranTranslation.name}
+                    height={500}
+                    width={500}
+                    className="w-full"
+                  />
+                </div>
+                <p className="text-xl text-center">{quranTranslation.name}</p>
               </div>
-              <p className="text-xl text-center">{quranTranslation.title}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
     </div>
   );
 }
-
-export const quranTranslations = [
-  {
-    image: "/quran-en.jpeg",
-    alt: "quran-en",
-    title: "The Quran (English)",
-  },
-  {
-    image: "/quran-es.jpeg",
-    alt: "quran-es",
-    title: "The Quran (Spanish)",
-  },
-];

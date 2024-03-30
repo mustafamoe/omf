@@ -73,9 +73,11 @@ export const NavBar = ({
         alt="omf"
         width={80}
         height={80}
-        style={{
-          filter: "drop-shadow(0px 0px 5px white)",
-        }}
+        style={
+          {
+            // filter: "drop-shadow(0px 0px 5px white)",
+          }
+        }
       />
     </Link>
   );
