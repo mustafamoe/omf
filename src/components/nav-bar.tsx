@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "framer-motion";
+import { useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "~/lib/utils";
 import { Link } from "~/navigation";
 import { Book, HandCoins, Menu } from "lucide-react";
@@ -68,17 +63,7 @@ export const NavBar = ({
 
   const logo = (
     <Link href="/">
-      <Image
-        src="/omf.png"
-        alt="omf"
-        width={80}
-        height={80}
-        style={
-          {
-            // filter: "drop-shadow(0px 0px 5px white)",
-          }
-        }
-      />
+      <Image src="/omf.png" alt="omf" width={80} height={80} />
     </Link>
   );
 
@@ -113,7 +98,7 @@ export const NavBar = ({
         </div>
         <div className="flex items-center space-x-2 sm:space-x-4">
           <Link href={mediaLinks.goodBricks} target="_blank">
-            <Button variant="secondary" className="rounded-full">
+            <Button variant="outline">
               <HandCoins className="w-4 h-4 mr-2" />
               Donate
             </Button>

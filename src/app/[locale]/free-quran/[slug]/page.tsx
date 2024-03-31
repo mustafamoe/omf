@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AuroraBackground } from "~/components/ui/aurora-background";
 import { Button } from "~/components/ui/button";
 import { quranTranslations } from "~/data/quran-translations";
+import { Link } from "~/navigation";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const quranTranslation = quranTranslations.find(
@@ -11,7 +12,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   if (!quranTranslation) notFound();
 
   return (
-    <AuroraBackground className="bg-gray-900 pt-28">
+    <AuroraBackground className="bg-gray-950 pt-28">
       <div className="container h-full flex items-center">
         <div className="w-1/2">
           <div className="relative w-[80%] aspect-[2/2]">
@@ -31,13 +32,17 @@ export default function Page({ params }: { params: { slug: string } }) {
               __html: quranTranslation.shortDescription,
             }}
           />
-          <p className="">
+          <p>
             <span className="underline font-bold">NOTE:</span> We are limiting
             orders to one Quran per order (non-Muslims only) due to high demand.
           </p>
-          <Button className="w-full" variant={"secondary"} size={"lg"}>
-            Order now!
-          </Button>
+          <div>
+            <Link href={`/checkout?product=${quranTranslation.slug}`}>
+              <Button className="w-full" variant={"secondary"} size={"lg"}>
+                Order now!
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </AuroraBackground>

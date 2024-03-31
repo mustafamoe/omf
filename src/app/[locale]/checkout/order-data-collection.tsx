@@ -1,10 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit, Globe } from "lucide-react";
+import { Edit } from "lucide-react";
 import { useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -13,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -30,11 +32,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { Textarea } from "~/components/ui/textarea";
+import { quranTranslations } from "~/data/quran-translations";
 import { cn } from "~/lib/utils";
 
 const formSchema = z.object({});
 
-export function OrderDataCollection() {
+export function OrderDataCollection({
+  quranTranslation,
+}: {
+  quranTranslation: (typeof quranTranslations)[number];
+}) {
   const methods = useForm({
     defaultValues: {
       country: "us",
@@ -56,25 +64,57 @@ export function OrderDataCollection() {
       <form onSubmit={handleSubmit}>
         <div className="space-y-4">
           <Step title={"1. Email"} {...stepProps(0)}>
-            <FormField
-              control={methods.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormControl>
-                    <Input placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    You'll receive receipts and notifications at this email
-                    address. Already have an account? Sign in
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </Step>
-          <Step title={"2. Shipping Address"} {...stepProps(1)}>
             <div className="space-y-4">
+              <FormField
+                control={methods.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormControl>
+                      <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      You'll receive receipts and notifications at this email
+                      address. Already have an account? Sign in
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={methods.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormControl>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="notify" {...field} />
+                        <label
+                          htmlFor="notify"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Sign up to receive news and updates.
+                        </label>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </Step>
+          <Step title={"2. Delivery"} {...stepProps(1)}>
+            <div className="space-y-4">
+              <Alert>
+                <AlertTitle className="text-sm mb-2">
+                  DELIVERY OPTION
+                </AlertTitle>
+                <AlertDescription className="flex">
+                  <Checkbox defaultChecked disabled />
+                  <span className="ml-2">Free shipping</span>
+                  <span className="ml-auto font-bold">FREE</span>
+                </AlertDescription>
+              </Alert>
               <div className="grid gap-4 grid-cols-2">
                 <FormField
                   control={methods.control}
@@ -170,38 +210,26 @@ export function OrderDataCollection() {
           <Step title={"3. Special instructions for seller"} {...stepProps(2)}>
             <FormField
               control={methods.control}
-              name="firstName"
+              name="Message"
               render={({ field }) => (
                 <FormItem className="flex-1">
+                  <FormLabel>Message</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" {...field} />
+                    <Textarea {...field} />
                   </FormControl>
                   <FormDescription>
-                    You'll receive receipts and notifications at this email
-                    address. Already have an account? Sign in
+                    Please let us know of any special instructions for your
+                    order.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </Step>
-          <Step title={"4. Review"} {...stepProps(3)}>
-            <FormField
-              control={methods.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormControl>
-                    <Input placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    You'll receive receipts and notifications at this email
-                    address. Already have an account? Sign in
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <Step title={"4. Review & Order"} {...stepProps(3)}>
+            <div className="space-y-4">
+              <p>Review your information and order when you're ready.</p>
+            </div>
           </Step>
         </div>
       </form>
@@ -243,7 +271,11 @@ function Step({
         ) : null}
         {step === activeStep && (
           <CardFooter>
-            <Button className="w-full">Continue</Button>
+            {activeStep === 3 ? (
+              <Button className="w-full">Submit Order!</Button>
+            ) : (
+              <Button className="w-full">Continue</Button>
+            )}
           </CardFooter>
         )}
       </Card>
@@ -260,10 +292,11 @@ function CountrySelect() {
       name="country"
       render={({ field }) => (
         <FormItem>
+          <FormLabel>State</FormLabel>
           <FormControl>
             <Select {...field}>
               <SelectTrigger>
-                <SelectValue placeholder="Country" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={"us"}>United States</SelectItem>
@@ -287,10 +320,11 @@ function StateSelect() {
       name="state"
       render={({ field }) => (
         <FormItem>
+          <FormLabel>State</FormLabel>
           <FormControl>
             <Select {...field}>
               <SelectTrigger>
-                <SelectValue placeholder="State" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={"AL"}>AL</SelectItem>

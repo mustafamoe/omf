@@ -63,6 +63,19 @@ export function SocialMedia() {
       />
 
       <SocialLink
+        link={mediaLinks.goodBricks}
+        icon={
+          <Image
+            src={"/logos/gb-logo.png"}
+            alt="goodbricks"
+            width={24}
+            height={24}
+            draggable={false}
+          />
+        }
+      />
+
+      <SocialLink
         link={mediaLinks.paypal}
         icon={
           <svg
