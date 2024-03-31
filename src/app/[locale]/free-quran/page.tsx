@@ -24,7 +24,7 @@ export default function Page() {
               <div>
                 <div className="w-full shadow-md rounded-md overflow-hidden mb-2">
                   <Image
-                    src={quranTranslation.image}
+                    src={quranTranslation.thumbnail}
                     alt={quranTranslation.name}
                     height={500}
                     width={500}
