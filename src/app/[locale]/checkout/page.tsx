@@ -1,5 +1,5 @@
 import { quranTranslations } from "~/data/quran-translations";
-import { OrderDataCollection } from "./order-data-collection";
+import { OrderDataCollection } from "./data-collection";
 import { OrderSummary } from "./order-summary";
 import { notFound } from "next/navigation";
 
